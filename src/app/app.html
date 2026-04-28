@@ -1,5 +1,11 @@
 <h1>Kurser</h1>
 
+<input
+  type="text"
+  placeholder="Sök kurskod eller kursnamn"
+  (input)="searchTerm.set($any($event.target).value)"
+>
+
 <table border="1" cellpadding="8">
   <thead>
     <tr>

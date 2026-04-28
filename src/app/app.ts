@@ -12,7 +12,10 @@ type SortKey = 'code' | 'coursename' | 'progression';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+
+  export class App {
+
+  searchTerm = signal('');
 
   private courseService = inject(CourseService);
 
@@ -23,17 +26,22 @@ export class App {
   sortKey = signal<SortKey>('code');
   sortDirection = signal<'asc' | 'desc'>('asc');
 
-  sortedCourses = computed(() => {
-    const data = [...this.courses()];
+sortedCourses = computed(() => {
+  const term = this.searchTerm().toLowerCase();
 
-    return data.sort((a, b) => {
-      const key = this.sortKey();
+  const filtered = this.courses().filter(course =>
+    course.code.toLowerCase().includes(term) ||
+    course.coursename.toLowerCase().includes(term)
+  );
 
-      if (a[key] < b[key]) return this.sortDirection() === 'asc' ? -1 : 1;
-      if (a[key] > b[key]) return this.sortDirection() === 'asc' ? 1 : -1;
-      return 0;
-    });
+  return filtered.sort((a, b) => {
+    const key = this.sortKey();
+
+    if (a[key] < b[key]) return this.sortDirection() === 'asc' ? -1 : 1;
+    if (a[key] > b[key]) return this.sortDirection() === 'asc' ? 1 : -1;
+    return 0;
   });
+});
 
   setSort(key: SortKey) {
     if (this.sortKey() === key) {
