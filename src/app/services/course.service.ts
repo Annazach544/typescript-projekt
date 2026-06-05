@@ -8,7 +8,7 @@ import { Course } from '../models/course.model';
 })
 export class CourseService {
 
-  private url = 'https://webbutveckling.miun.se/files/ramschema.json';
+  private url = '/miun_courses.json';
 
   constructor(private http: HttpClient) {}
 

@@ -5,23 +5,33 @@
   placeholder="Sök kurskod eller kursnamn"
   (input)="searchTerm.set($any($event.target).value)"
 >
+<select (change)="selectedSubject.set($any($event.target).value)">
+  <option value="">Alla ämnen</option>
+  <option *ngFor="let subject of subjects()" [value]="subject">
+    {{ subject }}
+  </option>
+</select>
+
+<p>Antal kurser i urvalet: {{ sortedCourses().length }}</p>
 
 <table>
   <thead>
     <tr>
-      <th (click)="setSort('code')">Kurskod</th>
-      <th (click)="setSort('coursename')">Kursnamn</th>
+      <th (click)="setSort('courseCode')">Kurskod</th>
+      <th (click)="setSort('courseName')">Kursnamn</th>
+      <th (click)="setSort('points')">Poäng</th>
+      <th (click)="setSort('subject')">Ämne</th>
       <th (click)="setSort('progression')">Progression</th>
     </tr>
   </thead>
 
   <tbody>
-    @for (course of sortedCourses(); track course.code) {
-      <tr>
-        <td>{{ course.code }}</td>
-        <td>{{ course.coursename }}</td>
-        <td>{{ course.progression }}</td>
-      </tr>
-    }
+    <tr *ngFor="let course of sortedCourses()">
+      <td>{{ course.courseCode }}</td>
+      <td>{{ course.courseName }}</td>
+      <td>{{ course.points }}</td>
+      <td>{{ course.subject }}</td>
+      <td>{{ course.progression }}</td>
+    </tr>
   </tbody>
 </table>
