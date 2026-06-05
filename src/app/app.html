@@ -22,6 +22,7 @@
       <th (click)="setSort('points')">Poäng</th>
       <th (click)="setSort('subject')">Ämne</th>
       <th (click)="setSort('progression')">Progression</th>
+      <th>Schema</th>
     </tr>
   </thead>
 
@@ -32,6 +33,42 @@
       <td>{{ course.points }}</td>
       <td>{{ course.subject }}</td>
       <td>{{ course.progression }}</td>
+      <td>
+      <button (click)="addCourse(course)">
+       Lägg till
+      </button>
+</td>
     </tr>
   </tbody>
 </table>
+
+<section>
+  <h2>Mitt ramschema</h2>
+
+  <p>Antal valda kurser: {{ selectedCourses().length }}</p>
+  <p>Totalt antal högskolepoäng: {{ totalPoints() }}</p>
+
+  <table *ngIf="selectedCourses().length > 0">
+    <thead>
+      <tr>
+        <th>Kurskod</th>
+        <th>Kursnamn</th>
+        <th>Poäng</th>
+        <th>Ta bort</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let course of selectedCourses()">
+        <td>{{ course.courseCode }}</td>
+        <td>{{ course.courseName }}</td>
+        <td>{{ course.points }}</td>
+        <td>
+          <button (click)="removeCourse(course.courseCode)">
+            Ta bort
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

@@ -2,6 +2,7 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CourseService } from './services/course.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Schedule } from './services/schedule';
 
 type SortKey = 'courseCode' | 'courseName' | 'progression' | 'points' | 'subject';
 
@@ -17,6 +18,7 @@ export class App {
   selectedSubject = signal('');
 
   private courseService = inject(CourseService);
+  private scheduleService = inject(Schedule);
 
   courses = toSignal(this.courseService.getCourses(), {
     initialValue: []
@@ -25,11 +27,13 @@ export class App {
   sortKey = signal<SortKey>('courseCode');
   sortDirection = signal<'asc' | 'desc'>('asc');
 
+  //Skapar en lista med unika ämnen till ämnesfiltret
   subjects = computed(() => {
     const allSubjects = this.courses().map(course => course.subject);
     return [...new Set(allSubjects)].sort();
   });
 
+  // Filtrerar och sorterar kurser baserat på sökterm, valt ämne, sorteringsnyckel och sorteringsriktning
   sortedCourses = computed(() => {
     const term = this.searchTerm().toLowerCase();
 
@@ -64,4 +68,20 @@ export class App {
       this.sortDirection.set('asc');
     }
   }
+
+  // Lägger till vald kurs i ramschema 
+  addCourse(course: any) {
+  this.scheduleService.addCourse(course);
+}
+selectedCourses() {
+  return this.scheduleService.getCourses();
+}
+
+totalPoints() {
+  return this.scheduleService.getTotalPoints();
+}
+
+removeCourse(courseCode: string) {
+  this.scheduleService.removeCourse(courseCode);
+}
 }
