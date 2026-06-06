@@ -5,9 +5,12 @@ import { Course } from '../models/course.model';
   providedIn: 'root',
 })
 export class Schedule {
-
-  // Array som innehåller kurser som användaren har lagt till i ramschemat
+  private storageKey = 'schedule';
   private schedule: Course[] = [];
+
+  constructor() {
+    this.loadFromLocalStorage();
+  }
 
   // Returnerar alla kurser som finns i ramschemat
   getCourses(): Course[] {
@@ -22,6 +25,7 @@ export class Schedule {
 
     if (!exists) {
       this.schedule.push(course);
+      this.saveToLocalStorage();
     }
   }
 
@@ -30,6 +34,8 @@ export class Schedule {
     this.schedule = this.schedule.filter(
       course => course.courseCode !== courseCode
     );
+
+    this.saveToLocalStorage();
   }
 
   // Räknar ut det totala antalet högskolepoäng för valda kurser
@@ -38,5 +44,19 @@ export class Schedule {
       (total, course) => total + course.points,
       0
     );
+  }
+
+  // Sparar ramschemat i webbläsarens localStorage
+  private saveToLocalStorage(): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(this.schedule));
+  }
+
+  // Läser in sparade kurser från localStorage när sidan öppnas
+  private loadFromLocalStorage(): void {
+    const savedSchedule = localStorage.getItem(this.storageKey);
+
+    if (savedSchedule) {
+      this.schedule = JSON.parse(savedSchedule);
+    }
   }
 }
