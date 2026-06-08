@@ -1,8 +1,11 @@
 <h1>Mitt ramschema</h1>
 
-<p>Antal valda kurser: {{ selectedCourses().length }}</p>
-<p>Totalt antal högskolepoäng: {{ totalPoints() }}</p>
+<div class="summary">
+  <p>Antal valda kurser: {{ selectedCourses().length }}</p>
+  <p>Totalt antal högskolepoäng: {{ totalPoints() }}</p>
+</div>
 
+<div class="table-wrapper">
 <table *ngIf="selectedCourses().length > 0">
   <thead>
     <tr>
@@ -24,7 +27,8 @@
     </tr>
   </tbody>
 </table>
+</div>
 
-<p *ngIf="selectedCourses().length === 0">
-  Du har inte lagt till några kurser ännu.
-</p>
+<div class="empty-message" *ngIf="selectedCourses().length === 0">
+  <p>Du har inte lagt till några kurser ännu.</p>
+</div>

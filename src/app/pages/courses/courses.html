@@ -1,20 +1,27 @@
 <h1>Kurser</h1>
 
-<input
-  type="text"
-  placeholder="Sök kurskod eller kursnamn"
-  (input)="searchTerm.set($any($event.target).value)"
->
+<div class="filters">
 
-<select (change)="selectedSubject.set($any($event.target).value)">
-  <option value="">Alla ämnen</option>
-  <option *ngFor="let subject of subjects()" [value]="subject">
-    {{ subject }}
-  </option>
-</select>
+  <input
+    type="text"
+    placeholder="Sök kurskod eller kursnamn"
+    (input)="searchTerm.set($any($event.target).value)"
+  >
 
-<p>Antal kurser i urvalet: {{ sortedCourses().length }}</p>
+  <select (change)="selectedSubject.set($any($event.target).value)">
+    <option value="">Alla ämnen</option>
+    <option *ngFor="let subject of subjects()" [value]="subject">
+      {{ subject }}
+    </option>
+  </select>
 
+</div>
+
+<p class="course-count">
+  Antal kurser i urvalet: {{ sortedCourses().length }}
+</p>
+
+<div class="table-wrapper">
 <table>
   <thead>
     <tr>
@@ -23,6 +30,7 @@
       <th (click)="setSort('points')">Poäng</th>
       <th (click)="setSort('subject')">Ämne</th>
       <th (click)="setSort('progression')">Progression</th>
+      <th>Kursplan</th>
       <th>Schema</th>
     </tr>
   </thead>
@@ -35,8 +43,14 @@
       <td>{{ course.subject }}</td>
       <td>{{ course.progression }}</td>
       <td>
+    <a [href]="course.syllabus" target="_blank">
+     Kursplan
+    </a>
+    </td>
+      <td>
         <button (click)="addCourse(course)">Lägg till</button>
       </td>
     </tr>
   </tbody>
 </table>
+</div>

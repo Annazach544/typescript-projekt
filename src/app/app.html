@@ -1,6 +1,15 @@
-<nav>
-  <a routerLink="/courses">Kurser</a>
-  <a routerLink="/schedule">Ramschema</a>
-</nav>
+<header>
+  <div class="header-content">
+    <h1>TypeScript-universitetet</h1>
+    <p>Sök bland kurser och skapa ditt eget ramschema.</p>
+  </div>
 
-<router-outlet></router-outlet>
+  <nav>
+    <a routerLink="/courses" routerLinkActive="active">Kurser</a>
+    <a routerLink="/schedule" routerLinkActive="active">Ramschema</a>
+  </nav>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
