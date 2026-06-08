@@ -1,0 +1,42 @@
+<h1>Kurser</h1>
+
+<input
+  type="text"
+  placeholder="Sök kurskod eller kursnamn"
+  (input)="searchTerm.set($any($event.target).value)"
+>
+
+<select (change)="selectedSubject.set($any($event.target).value)">
+  <option value="">Alla ämnen</option>
+  <option *ngFor="let subject of subjects()" [value]="subject">
+    {{ subject }}
+  </option>
+</select>
+
+<p>Antal kurser i urvalet: {{ sortedCourses().length }}</p>
+
+<table>
+  <thead>
+    <tr>
+      <th (click)="setSort('courseCode')">Kurskod</th>
+      <th (click)="setSort('courseName')">Kursnamn</th>
+      <th (click)="setSort('points')">Poäng</th>
+      <th (click)="setSort('subject')">Ämne</th>
+      <th (click)="setSort('progression')">Progression</th>
+      <th>Schema</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let course of sortedCourses()">
+      <td>{{ course.courseCode }}</td>
+      <td>{{ course.courseName }}</td>
+      <td>{{ course.points }}</td>
+      <td>{{ course.subject }}</td>
+      <td>{{ course.progression }}</td>
+      <td>
+        <button (click)="addCourse(course)">Lägg till</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

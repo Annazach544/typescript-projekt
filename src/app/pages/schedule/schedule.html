@@ -1,0 +1,30 @@
+<h1>Mitt ramschema</h1>
+
+<p>Antal valda kurser: {{ selectedCourses().length }}</p>
+<p>Totalt antal högskolepoäng: {{ totalPoints() }}</p>
+
+<table *ngIf="selectedCourses().length > 0">
+  <thead>
+    <tr>
+      <th>Kurskod</th>
+      <th>Kursnamn</th>
+      <th>Poäng</th>
+      <th>Ta bort</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let course of selectedCourses()">
+      <td>{{ course.courseCode }}</td>
+      <td>{{ course.courseName }}</td>
+      <td>{{ course.points }}</td>
+      <td>
+        <button (click)="removeCourse(course.courseCode)">Ta bort</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="selectedCourses().length === 0">
+  Du har inte lagt till några kurser ännu.
+</p>
